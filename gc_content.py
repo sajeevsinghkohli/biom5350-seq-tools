@@ -38,7 +38,12 @@ def main():
         print(__doc__)
         sys.exit(1)
     for name, seq in read_fasta(sys.argv[1]):
-        print(f"{name}\tLength = {len(seq)}\tGC = {100 * gc_content(seq):.1f}%")
+        gc = gc_content(seq)
+        counted = [b for b in seq if b in "ACGT"]
+        at = sum(b in "AT" for b in counted) / len(counted) if counted else 0.0
+
+        print(f"{name}\tLength = {len(seq)}\tGC = {100 * gc:.1f}%\tAT = {100 * at:.1f}%")
+
 
 
 if __name__ == "__main__":
